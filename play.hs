@@ -23,3 +23,37 @@ check true guess = let
   exact = zipWith isCorrect true guess
   remaining = map fst $ filter (\x -> snd (snd x) /= Correct) $ zip true exact
   in checkLoop exact remaining
+
+oneRound :: Int -> String -> IO [Result]
+oneRound round correct = do
+  putStr $ "Make a guess (" ++ show round ++ "/6):\n"
+  guess <- getLine
+  return (check correct guess)
+
+displayResult :: [Result] -> IO ()
+displayResult [] = putStr "\n"
+displayResult (Correct:xs) = do
+  putStr "O"
+  displayResult xs
+displayResult (Position:xs) = do
+  putStr "?"
+  displayResult xs
+displayResult (Wrong:xs) = do
+  putStr "X"
+  displayResult xs
+
+playGame :: String -> Int -> IO ()
+playGame _ 6 = return ()
+playGame correct round = do
+  roundResult <- oneRound (round+1) correct
+  displayResult roundResult
+  if all (==Correct) roundResult then
+    (do
+        return ()
+    ) else (do
+               putStr "\n"
+               playGame correct $ round+1
+           )
+
+main = do
+  playGame "pizza" 0
