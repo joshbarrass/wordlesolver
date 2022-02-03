@@ -1,3 +1,5 @@
+import System.Random
+
 data Result = Wrong | Position | Correct | Unknown deriving (Show, Eq)
 
 removeFirst :: (Eq a) => a -> [a] -> [a]
@@ -43,7 +45,7 @@ displayResult (Wrong:xs) = do
   displayResult xs
 
 playGame :: String -> Int -> IO ()
-playGame _ 6 = return ()
+playGame correct 6 = putStr $ "Sorry, the correct answer was: " ++ correct ++ "\n"
 playGame correct round = do
   roundResult <- oneRound (round+1) correct
   displayResult roundResult
@@ -55,5 +57,18 @@ playGame correct round = do
                playGame correct $ round+1
            )
 
+loadDictionary :: FilePath -> IO [String]
+loadDictionary fp = do
+  contents <- readFile fp
+  return $ lines contents
+
+chooseWord :: [String] -> IO String
+chooseWord dict = do
+  gen <- getStdGen
+  let (i, _) = randomR (0, length dict - 1) gen
+  return $ dict !! i
+
 main = do
-  playGame "pizza" 0
+  dict <- loadDictionary "words.txt"
+  target <- chooseWord dict
+  playGame target 0
