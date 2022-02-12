@@ -4,6 +4,8 @@ module Common
   , chooseWord
   , check
   , removeFirst
+  , isPossible
+  , filterDict
   ) where
 
 import System.Random
@@ -44,3 +46,11 @@ check true guess = let
   exact = zipWith isCorrect true guess
   remaining = map fst $ filter (\x -> snd (snd x) /= Correct) $ zip true exact
   in checkLoop exact remaining
+
+-- checks whether a word is compatible with a result
+isPossible :: String -> [Result] -> String -> Bool
+isPossible guess result true = check true guess == result
+
+-- filter dictionary to possible answers only
+filterDict :: String -> [Result] -> [String] -> [String]
+filterDict guess result = filter (isPossible guess result) 
