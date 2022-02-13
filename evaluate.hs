@@ -2,30 +2,24 @@ import Text.Printf
 import Data.Foldable
 
 import Common
-import Solver.HardOptimal
+import Solver.Optimal
 
-autoSolve :: [String] -> Int -> String -> [[Result]]
-autoSolve [] _ _ = []
-autoSolve dict 1 word = let
+autoSolve :: [String] -> [String] -> Int -> String -> [[Result]]
+autoSolve _ [] _ _ = []
+autoSolve dict rem 1 word = let
   guess = "arise"
   result = check word guess
-  -- newDict = filterDict guess result dict
-  newDict = dict
-  in if all (==Correct) result then [result] else result : autoSolve newDict 2 word
-autoSolve dict i word = let
-  guess = getNextGuess dict 
+  newRem = filterDict guess result rem
+  in if all (==Correct) result then [result] else result : autoSolve dict newRem 2 word
+autoSolve dict rem i word = let
+  guess = getNextGuess dict rem 
   result = check word guess
-  -- newDict = filterDict guess result dict
-  newDict = dict
-  in if all (==Correct) result then [result] else result : autoSolve newDict (i+1) word
-
-mean :: (Foldable t, Real a, Fractional a) => t a -> a
-mean xs = let
-  in sum xs / fromIntegral (length xs)
+  newRem = filterDict guess result rem
+  in if all (==Correct) result then [result] else result : autoSolve dict newRem (i+1) word
 
 main = do
   dict <- loadDictionary "words.txt"
-  let sols = map (\x -> (x, autoSolve dict 1 x)) dict
+  let sols = map (\x -> (x, autoSolve dict dict 1 x)) dict
   let solved = filter (all (==Correct) . last . snd) sols
   let solvedInTime = filter ((<= 6) . length . snd) solved
   let guessesNeeded = map (length . snd) solvedInTime

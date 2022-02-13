@@ -7,6 +7,7 @@ module Common
   , isPossible
   , filterDict
   , showResult
+  , mean
   ) where
 
 import System.Random
@@ -63,3 +64,7 @@ showResult = map showSingleResult
     showSingleResult Correct = 'O'
     showSingleResult Position = '?'
     showSingleResult Wrong = 'X'
+
+mean :: (Foldable t, Real a, Fractional a) => t a -> a
+mean xs = let
+  in sum xs / fromIntegral (length xs)
