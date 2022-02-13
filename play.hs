@@ -7,16 +7,9 @@ oneRound round correct = do
   return (check correct guess)
 
 displayResult :: [Result] -> IO ()
-displayResult [] = putStr "\n"
-displayResult (Correct:xs) = do
-  putStr "O"
-  displayResult xs
-displayResult (Position:xs) = do
-  putStr "?"
-  displayResult xs
-displayResult (Wrong:xs) = do
-  putStr "X"
-  displayResult xs
+displayResult xs = do
+  putStrLn $ showResult xs
+  return ()
 
 playGame :: String -> Int -> IO ()
 playGame correct 6 = putStr $ "Sorry, the correct answer was: " ++ correct ++ "\n"

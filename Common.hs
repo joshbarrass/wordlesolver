@@ -6,6 +6,7 @@ module Common
   , removeFirst
   , isPossible
   , filterDict
+  , showResult
   ) where
 
 import System.Random
@@ -53,4 +54,12 @@ isPossible guess result true = check true guess == result
 
 -- filter dictionary to possible answers only
 filterDict :: String -> [Result] -> [String] -> [String]
-filterDict guess result = filter (isPossible guess result) 
+filterDict guess result = filter (isPossible guess result)
+
+showResult :: [Result] -> String
+showResult = map showSingleResult
+  where
+    showSingleResult :: Result -> Char
+    showSingleResult Correct = 'O'
+    showSingleResult Position = '?'
+    showSingleResult Wrong = 'X'
