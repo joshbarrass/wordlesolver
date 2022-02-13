@@ -1,4 +1,4 @@
-module Solver.Optimal
+module Solver.HardOptimal
   ( getNextGuess
   ) where
 
