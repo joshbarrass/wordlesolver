@@ -28,7 +28,7 @@ main = do
   let meanGuesses = (mean $ map fromIntegral guessesNeeded) :: Double
   putStrLn $ "Number solved: " ++ show (length solvedInTime) ++ " (" ++ printf "%.2f" percentSolved ++ "%)"
   putStrLn $ "Average guesses needed: " ++ printf "%.2f" meanGuesses
-  putStrLn $ "Max guesses needed: " ++ show (length $ maximumBy (\x y -> length x `compare` length y) solvedInTime)
+  putStrLn $ "Max guesses needed: " ++ show (maximum guessesNeeded)
 
   let solvedWords = map fst solvedInTime
   let failureWords = filter (`notElem` solvedWords) dict
