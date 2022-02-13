@@ -1,5 +1,4 @@
 import Text.Printf
-import Data.Foldable
 
 import Common
 import Solver.HardOptimal
