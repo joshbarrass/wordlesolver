@@ -2,7 +2,7 @@ import Text.Printf
 import Data.Foldable
 
 import Common
-import Solver
+import Solver.Probability
 
 autoSolve :: [String] -> String -> [[Result]]
 autoSolve [] _ = []

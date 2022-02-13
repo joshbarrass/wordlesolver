@@ -1,4 +1,4 @@
-module Solver
+module Solver.Probability
   ( getNextGuess
   ) where
 

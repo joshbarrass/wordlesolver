@@ -1,7 +1,7 @@
 import Data.Char
 
 import Common
-import Solver
+import Solver.Probability
 
 readResult :: String -> [Result]
 readResult [] = []
